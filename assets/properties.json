@@ -1,0 +1,683 @@
+[
+  {
+    "id": 1,
+    "title": "Modern City Apartment",
+    "location": "New York, USA",
+    "description": "A stylish apartment in the heart of Manhattan.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 2,
+    "price": 150,
+    "hostname": "John Doe",
+    "amenities": [
+      "WiFi",
+      "TV",
+      "Kitchen",
+      "Washer"
+    ],
+    "images": [
+      "boston_11474629_1.jpg",
+      "boston_11474629_2.jpg",
+      "boston_11474629_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "123 Main St, New York, NY",
+    "checkin": "2024-12-01",
+    "checkout": "2024-12-07",
+    "status": "available",
+    "rating": [
+      10,
+      5,
+      3,
+      2,
+      0
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Beachfront Getaway",
+    "location": "Miami, USA",
+    "description": "Relax by the beach in this cozy property.",
+    "rooms": 3,
+    "guests": 6,
+    "bathrooms": 3,
+    "price": 200,
+    "hostname": "Jane Smith",
+    "amenities": [
+      "Pool",
+      "WiFi",
+      "Air Conditioning",
+      "Balcony"
+    ],
+    "images": [
+      "boston_1315879_1.jpg",
+      "boston_1315879_2.jpg",
+      "boston_1315879_3.jpg",
+      "boston_1315879_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "456 Ocean Dr, Miami, FL",
+    "checkin": "2024-12-15",
+    "checkout": "2024-12-20",
+    "status": "available",
+    "rating": [
+      5,
+      8,
+      5,
+      2,
+      5
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Rustic Cabin in the Woods",
+    "location": "Asheville, USA",
+    "description": "Escape to nature in this cozy cabin.",
+    "rooms": 1,
+    "guests": 2,
+    "bathrooms": 1,
+    "price": 90,
+    "hostname": "Alice Johnson",
+    "amenities": [
+      "Fireplace",
+      "Parking",
+      "Kitchen"
+    ],
+    "images": [
+      "boston_14522631_1.jpg",
+      "boston_14522631_2.jpg",
+      "boston_14522631_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "789 Forest Rd, Asheville, NC",
+    "checkin": "2024-12-05",
+    "checkout": "2024-12-10",
+    "status": "booked",
+    "rating": [
+      4,
+      10,
+      3,
+      1,
+      0
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Luxury Downtown Condo",
+    "location": "Chicago, USA",
+    "description": "Enjoy luxury and convenience in downtown Chicago.",
+    "rooms": 3,
+    "guests": 5,
+    "bathrooms": 2,
+    "price": 220,
+    "hostname": "Michael Brown",
+    "amenities": [
+      "Gym",
+      "WiFi",
+      "Doorman",
+      "Parking"
+    ],
+    "images": [
+      "boston_1584362_1.jpg",
+      "boston_1584362_2.jpg",
+      "boston_1584362_3.jpg",
+      "boston_1584362_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "987 Tower Ln, Chicago, IL",
+    "checkin": "2024-12-10",
+    "checkout": "2024-12-17",
+    "status": "available",
+    "rating": [
+      3,
+      4,
+      6,
+      7,
+      10
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Cozy Mountain Retreat",
+    "location": "Denver, USA",
+    "description": "Perfect for skiing and outdoor adventures.",
+    "rooms": 4,
+    "guests": 8,
+    "bathrooms": 4,
+    "price": 300,
+    "hostname": "Emily Davis",
+    "amenities": [
+      "Hot Tub",
+      "Fireplace",
+      "WiFi",
+      "Garage"
+    ],
+    "images": [
+      "boston_16288361_1.jpg",
+      "boston_16288361_2.jpg",
+      "boston_16288361_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "321 Alpine Rd, Denver, CO",
+    "checkin": "2024-12-20",
+    "checkout": "2024-12-30",
+    "status": "available",
+    "rating": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Urban Loft",
+    "location": "Seattle, USA",
+    "description": "Modern loft with stunning city views.",
+    "rooms": 2,
+    "guests": 3,
+    "bathrooms": 1,
+    "price": 140,
+    "hostname": "Chris Evans",
+    "amenities": [
+      "WiFi",
+      "TV",
+      "Coffee Maker"
+    ],
+    "images": [
+      "boston_17267707_1.jpg",
+      "boston_17267707_2.jpg",
+      "boston_17267707_3.jpg",
+      "boston_17267707_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "101 Pine St, Seattle, WA",
+    "checkin": "2024-12-10",
+    "checkout": "2024-12-14",
+    "status": "booked",
+    "rating": [
+      3,
+      6,
+      7,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Countryside Villa",
+    "location": "Tuscany, Italy",
+    "description": "Experience the charm of the Italian countryside.",
+    "rooms": 5,
+    "guests": 10,
+    "bathrooms": 5,
+    "price": 400,
+    "hostname": "Sophia Loren",
+    "amenities": [
+      "Pool",
+      "Garden",
+      "WiFi",
+      "BBQ"
+    ],
+    "images": [
+      "boston_18290558_1.jpg",
+      "boston_18290558_2.jpg",
+      "boston_18290558_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "456 Vineyard Rd, Tuscany, Italy",
+    "checkin": "2024-12-01",
+    "checkout": "2024-12-10",
+    "status": "available",
+    "rating": [
+      2,
+      3,
+      5,
+      6,
+      4
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Lakefront Cottage",
+    "location": "Lake Tahoe, USA",
+    "description": "A peaceful retreat by the lake.",
+    "rooms": 3,
+    "guests": 6,
+    "bathrooms": 2,
+    "price": 180,
+    "hostname": "David Green",
+    "amenities": [
+      "Kayaks",
+      "Fireplace",
+      "WiFi"
+    ],
+    "images": [
+      "boston_19224791_1.jpg",
+      "boston_19224791_2.jpg",
+      "boston_19224791_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Lakefront Dr, Tahoe, CA",
+    "checkin": "2024-12-12",
+    "checkout": "2024-12-18",
+    "status": "available",
+    "rating": [
+      1,
+      2,
+      4,
+      6,
+      7
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Penthouse Suite",
+    "location": "Los Angeles, USA",
+    "description": "Live like a star in this exclusive penthouse.",
+    "rooms": 4,
+    "guests": 8,
+    "bathrooms": 3,
+    "price": 500,
+    "hostname": "George Lucas",
+    "amenities": [
+      "Jacuzzi",
+      "Bar",
+      "Private Elevator"
+    ],
+    "images": [
+      "boston_20309505_1.jpg",
+      "boston_20309505_2.jpg",
+      "boston_20309505_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Hollywood Blvd, LA, CA",
+    "checkin": "2024-12-22",
+    "checkout": "2024-12-30",
+    "status": "available",
+    "rating": [
+      2,
+      4,
+      6,
+      8,
+      10
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Cozy Studio",
+    "location": "San Francisco, USA",
+    "description": "Compact yet comfortable, perfect for solo travelers.",
+    "rooms": 1,
+    "guests": 1,
+    "bathrooms": 1,
+    "price": 80,
+    "hostname": "Anna Bell",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Iron"
+    ],
+    "images": [
+      "boston_22327141_1.jpg",
+      "boston_22327141_2.jpg",
+      "boston_22327141_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Market St, San Francisco, CA",
+    "checkin": "2024-12-01",
+    "checkout": "2024-12-05",
+    "status": "booked",
+    "rating": [
+      0,
+      2,
+      5,
+      6,
+      7
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Seaside Bungalow",
+    "location": "Malibu, USA",
+    "description": "Wake up to ocean views in this charming bungalow.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 2,
+    "price": 250,
+    "hostname": "Sandra Lee",
+    "amenities": [
+      "Beach Access",
+      "WiFi",
+      "Parking",
+      "BBQ"
+    ],
+    "images": [
+      "boston_432044_1.jpg",
+      "boston_432044_2.jpg",
+      "boston_432044_3.jpg",
+      "boston_432044_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "789 Coastal Dr, Malibu, CA",
+    "checkin": "2024-12-10",
+    "checkout": "2024-12-15",
+    "status": "available",
+    "rating": [
+      2,
+      3,
+      5,
+      8,
+      12
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Historic Apartment",
+    "location": "Prague, Czech Republic",
+    "description": "Stay in a beautifully preserved historic building.",
+    "rooms": 3,
+    "guests": 5,
+    "bathrooms": 1,
+    "price": 170,
+    "hostname": "Ivan Novak",
+    "amenities": [
+      "WiFi",
+      "Heating",
+      "Washer"
+    ],
+    "images": [
+      "boston_4351047_1.jpg",
+      "boston_4351047_2.jpg",
+      "boston_4351047_3.jpg",
+      "boston_4351047_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Old Town Square, Prague",
+    "checkin": "2024-12-05",
+    "checkout": "2024-12-12",
+    "status": "booked",
+    "rating": [
+      1,
+      2,
+      6,
+      7,
+      10
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Tropical Villa",
+    "location": "Bali, Indonesia",
+    "description": "Luxury villa with a private pool and lush gardens.",
+    "rooms": 4,
+    "guests": 8,
+    "bathrooms": 4,
+    "price": 300,
+    "hostname": "Komang Putra",
+    "amenities": [
+      "Pool",
+      "WiFi",
+      "Air Conditioning",
+      "BBQ"
+    ],
+    "images": [
+      "boston_4461412_1.jpg",
+      "boston_4461412_2.jpg",
+      "boston_4461412_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Jl. Sunset, Bali",
+    "checkin": "2024-12-20",
+    "checkout": "2024-12-30",
+    "status": "available",
+    "rating": [
+      5,
+      3,
+      4,
+      6,
+      12
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Modern Duplex",
+    "location": "London, UK",
+    "description": "A stylish duplex in the heart of London.",
+    "rooms": 3,
+    "guests": 6,
+    "bathrooms": 2,
+    "price": 220,
+    "hostname": "Rachel Taylor",
+    "amenities": [
+      "WiFi",
+      "TV",
+      "Dishwasher"
+    ],
+    "images": [
+      "boston_4850870_1.jpg",
+      "boston_4850870_2.jpg",
+      "boston_4850870_3.jpg",
+      "boston_4850870_4.jpg",
+      "boston_4850870_5.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "45 Oxford St, London",
+    "checkin": "2024-12-12",
+    "checkout": "2024-12-18",
+    "status": "booked",
+    "rating": [
+      2,
+      6,
+      5,
+      7,
+      10
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Luxury Chalet",
+    "location": "Zermatt, Switzerland",
+    "description": "Experience alpine luxury near ski slopes.",
+    "rooms": 5,
+    "guests": 10,
+    "bathrooms": 4,
+    "price": 500,
+    "hostname": "Luca Müller",
+    "amenities": [
+      "Sauna",
+      "Fireplace",
+      "WiFi",
+      "Garage"
+    ],
+    "images": [
+      "boston_5661892_1.jpg",
+      "boston_5661892_2.jpg",
+      "boston_5661892_3.jpg",
+      "boston_5661892_4.jpg",
+      "boston_5661892_5.jpg",
+      "boston_5661892_6.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "123 Ski Way, Zermatt",
+    "checkin": "2024-12-25",
+    "checkout": "2025-01-05",
+    "status": "available",
+    "rating": [
+      3,
+      5,
+      7,
+      8,
+      11
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Eco-Friendly Treehouse",
+    "location": "Costa Rica",
+    "description": "Stay in an eco-friendly treehouse in the jungle.",
+    "rooms": 1,
+    "guests": 2,
+    "bathrooms": 1,
+    "price": 100,
+    "hostname": "Carlos Vega",
+    "amenities": [
+      "Solar Power",
+      "WiFi",
+      "Hammock"
+    ],
+    "images": [
+      "boston_668799_1.jpg",
+      "boston_668799_2.jpg",
+      "boston_668799_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Rainforest, Costa Rica",
+    "checkin": "2024-12-08",
+    "checkout": "2024-12-14",
+    "status": "available",
+    "rating": [
+      0,
+      2,
+      5,
+      8,
+      10
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Downtown Studio",
+    "location": "Tokyo, Japan",
+    "description": "Compact and efficient studio in central Tokyo.",
+    "rooms": 1,
+    "guests": 2,
+    "bathrooms": 1,
+    "price": 120,
+    "hostname": "Hiroshi Tanaka",
+    "amenities": [
+      "WiFi",
+      "Kitchenette",
+      "Heating"
+    ],
+    "images": [
+      "seattle_1110749_1.jpg",
+      "seattle_1110749_2.jpg",
+      "seattle_1110749_3.jpg",
+      "seattle_1110749_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Shinjuku, Tokyo",
+    "checkin": "2024-12-05",
+    "checkout": "2024-12-10",
+    "status": "booked",
+    "rating": [
+      3,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Secluded Desert Retreat",
+    "location": "Joshua Tree, USA",
+    "description": "Unplug and relax in this serene desert escape.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 1,
+    "price": 150,
+    "hostname": "Mark White",
+    "amenities": [
+      "Outdoor Shower",
+      "Fire Pit",
+      "Hammocks"
+    ],
+    "images": [
+      "seattle_1686930_1.jpg",
+      "seattle_1686930_2.jpg",
+      "seattle_1686930_3.jpg",
+      "seattle_1686930_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Desert Rd, Joshua Tree, CA",
+    "checkin": "2024-12-12",
+    "checkout": "2024-12-18",
+    "status": "available",
+    "rating": [
+      1,
+      3,
+      4,
+      6,
+      10
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Riverfront Cabin",
+    "location": "Portland, USA",
+    "description": "Enjoy the tranquility of the river in this cozy cabin.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 1,
+    "price": 130,
+    "hostname": "Emily Green",
+    "amenities": [
+      "Kayaks",
+      "WiFi",
+      "BBQ"
+    ],
+    "images": [
+      "seattle_2715623_1.jpg",
+      "seattle_2715623_2.jpg",
+      "seattle_2715623_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Riverbank Lane, Portland, OR",
+    "checkin": "2024-12-01",
+    "checkout": "2024-12-05",
+    "status": "booked",
+    "rating": [
+      2,
+      4,
+      5,
+      6,
+      8
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Downtown Apartment",
+    "location": "Paris, France",
+    "description": "Charming apartment near the Eiffel Tower.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 2,
+    "price": 200,
+    "hostname": "Marie Dupont",
+    "amenities": [
+      "WiFi",
+      "Elevator",
+      "Balcony"
+    ],
+    "images": [
+      "seattle_278830_1.jpg",
+      "seattle_278830_2.jpg",
+      "seattle_278830_3.jpg",
+      "seattle_278830_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "Champ de Mars, Paris",
+    "checkin": "2024-12-12",
+    "checkout": "2024-12-18",
+    "status": "available",
+    "rating": [
+      3,
+      6,
+      8,
+      9,
+      12
+    ]
+  }
+]
