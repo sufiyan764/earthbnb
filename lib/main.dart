@@ -1,4 +1,4 @@
-import 'package:earthbnb/Properties.dart';
+import 'package:earthbnb/PropertiesClass.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 
 import 'firebase_options.dart';
+import 'navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +56,6 @@ class _ApartmentListScreenState extends State<ApartmentListScreen> {
   void initState() {
     super.initState();
     properties = loadProperties();
-    print("heelo");
   }
 
   @override
@@ -90,7 +90,6 @@ class _ApartmentListScreenState extends State<ApartmentListScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: property.images.length,
                       itemBuilder: (context, imgIndex) {
-                        print('assets/images/properties/${property.images[imgIndex]}');
                         return Image.asset('assets/images/properties/${property.images[imgIndex]}');
                       },
                     ),
@@ -102,54 +101,7 @@ class _ApartmentListScreenState extends State<ApartmentListScreen> {
           }
         },
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        bottomNavigationBar: AppNavigation(selectedIndex: 0)
     );
   }
 }

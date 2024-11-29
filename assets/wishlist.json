@@ -1,0 +1,139 @@
+[
+  {
+    "id": 1,
+    "title": "Modern City Apartment",
+    "location": "New York, USA",
+    "description": "A stylish apartment in the heart of Manhattan.",
+    "rooms": 2,
+    "guests": 4,
+    "bathrooms": 2,
+    "price": 150,
+    "hostname": "John Doe",
+    "amenities": [
+      "WiFi",
+      "TV",
+      "Kitchen",
+      "Washer"
+    ],
+    "images": [
+      "boston_11474629_1.jpg",
+      "boston_11474629_2.jpg",
+      "boston_11474629_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "123 Main St, New York, NY",
+    "checkin": "2024-12-01",
+    "checkout": "2024-12-07",
+    "status": "available",
+    "rating": [
+      10,
+      5,
+      3,
+      2,
+      0
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Beachfront Getaway",
+    "location": "Miami, USA",
+    "description": "Relax by the beach in this cozy property.",
+    "rooms": 3,
+    "guests": 6,
+    "bathrooms": 3,
+    "price": 200,
+    "hostname": "Jane Smith",
+    "amenities": [
+      "Pool",
+      "WiFi",
+      "Air Conditioning",
+      "Balcony"
+    ],
+    "images": [
+      "boston_1315879_1.jpg",
+      "boston_1315879_2.jpg",
+      "boston_1315879_3.jpg",
+      "boston_1315879_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "456 Ocean Dr, Miami, FL",
+    "checkin": "2024-12-15",
+    "checkout": "2024-12-20",
+    "status": "available",
+    "rating": [
+      5,
+      8,
+      5,
+      2,
+      5
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Rustic Cabin in the Woods",
+    "location": "Asheville, USA",
+    "description": "Escape to nature in this cozy cabin.",
+    "rooms": 1,
+    "guests": 2,
+    "bathrooms": 1,
+    "price": 90,
+    "hostname": "Alice Johnson",
+    "amenities": [
+      "Fireplace",
+      "Parking",
+      "Kitchen"
+    ],
+    "images": [
+      "boston_14522631_1.jpg",
+      "boston_14522631_2.jpg",
+      "boston_14522631_3.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "789 Forest Rd, Asheville, NC",
+    "checkin": "2024-12-05",
+    "checkout": "2024-12-10",
+    "status": "booked",
+    "rating": [
+      4,
+      10,
+      3,
+      1,
+      0
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Luxury Downtown Condo",
+    "location": "Chicago, USA",
+    "description": "Enjoy luxury and convenience in downtown Chicago.",
+    "rooms": 3,
+    "guests": 5,
+    "bathrooms": 2,
+    "price": 220,
+    "hostname": "Michael Brown",
+    "amenities": [
+      "Gym",
+      "WiFi",
+      "Doorman",
+      "Parking"
+    ],
+    "images": [
+      "boston_1584362_1.jpg",
+      "boston_1584362_2.jpg",
+      "boston_1584362_3.jpg",
+      "boston_1584362_4.jpg"
+    ],
+    "dates": "2024-11-28",
+    "address": "987 Tower Ln, Chicago, IL",
+    "checkin": "2024-12-10",
+    "checkout": "2024-12-17",
+    "status": "available",
+    "rating": [
+      3,
+      4,
+      6,
+      7,
+      10
+    ]
+  }
+]
