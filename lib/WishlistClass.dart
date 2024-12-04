@@ -1,3 +1,5 @@
+import 'PropertiesClass.dart';
+
 class Wishlist {
   final int id;
   final String title;
@@ -79,5 +81,27 @@ class Wishlist {
       'status': status,
       'rating': rating,
     };
+  }
+
+  Property toProperty() {
+    return Property(
+      id: this.id,
+      title: this.title,
+      location: this.location,
+      description: this.description,
+      rooms: this.rooms,
+      guests: this.guests,
+      bathrooms: this.bathrooms,
+      price: this.price,
+      hostName: this.hostName,
+      amenities: this.amenities,
+      images: this.images,
+      dates: this.dates,
+      address: this.address,
+      checkIn: this.checkin,
+      checkout: this.checkout,
+      status: this.status,
+      rating: this.rating, checkin: '',
+    );
   }
 }

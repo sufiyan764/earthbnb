@@ -34,7 +34,7 @@ class Property {
     required this.checkin,
     required this.checkout,
     required this.status,
-    required this.rating,
+    required this.rating, required checkIn,
   });
 
   factory Property.fromJson(Map<String, dynamic> json) {
@@ -55,7 +55,7 @@ class Property {
       checkin: json['checkin'],
       checkout: json['checkout'],
       status: json['status'],
-      rating: List<int>.from(json['rating']),
+      rating: List<int>.from(json['rating']), checkIn: null,
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:earthbnb/PropertiesClass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -19,42 +20,63 @@ class _WishlistScreenState extends State<WishlistScreen> {
     wishlistProperties = loadWishlistProperties();
   }
 
+  double calculateAverageRating(List<int> ratings) {
+    if (ratings.isEmpty) return 0.0;
+    int totalRatings = 0;
+    int totalUsers = 0;
+
+    for (int i = 0; i < ratings.length; i++) {
+      totalRatings += (i + 1) * ratings[i]; // Rating value (1-5) * count of users
+      totalUsers += ratings[i];
+    }
+
+    return totalUsers > 0 ? totalRatings / totalUsers : 0.0;
+  }
+
   Future<List<Wishlist>> loadWishlistProperties() async {
     final user = _auth.currentUser;
-    final DatabaseReference ref = FirebaseDatabase.instance.ref('wishlist/${user?.uid}');
+    if (user == null) throw Exception('User not logged in');
+
+    final DatabaseReference ref = FirebaseDatabase.instance.ref('wishlist/${user.uid}');
     DataSnapshot snapshot = await ref.get();
-    print("snapshot----------------_> " + snapshot.toString());
-    if (snapshot.exists) {
-      print("snapshot.value----------------_> " + snapshot.value.toString());
-      if (snapshot.value is Map) {
-        List<Wishlist> wishlist = [];
-        Map<Object?, Object?> wishlistMap = snapshot.value as Map<Object?, Object?>;
-        print("wishlistMap -----------------> ${wishlistMap}");
 
-        wishlistMap.forEach((key, value) {
-          try {
-            print("Processing item with key: $key and value: $value");
-            if (value is Map<Object?, Object?>) {
-              wishlist.add(Wishlist.fromJson(Map<String, dynamic>.from(value)));
-            } else {
-              print("Skipping item with key: $key because value is not a Map");
-            }
-          } catch (e) {
-            print("Error processing item with key: $key. Error: $e");
-          }
-        });
-
-        print("wishlist -----------------> $wishlist");
-        return wishlist;
-      } else {
-        print("not list");
-        throw Exception('Unexpected data format: Expected a List');
-      }
-    } else {
-      print("no data");
+    if (!snapshot.exists) {
+      print("No data available");
       throw Exception('No data available');
     }
+
+    if (snapshot.value is List) {
+      List<Wishlist> wishlist = [];
+      List<dynamic> wishlistData = List<dynamic>.from(snapshot.value as List);
+
+      for (var item in wishlistData) {
+        try {
+          if (item is Map && item.containsKey('property')) {
+            final propertyId = item['property'];
+            final propertyRef = FirebaseDatabase.instance.ref('properties/$propertyId');
+            DataSnapshot propertySnapshot = await propertyRef.get();
+
+            if (propertySnapshot.exists) {
+              final propertyData = Map<String, dynamic>.from(propertySnapshot.value as Map);
+              wishlist.add(Wishlist.fromJson(propertyData));
+            } else {
+              print("Property with ID $propertyId not found in properties collection");
+            }
+          } else {
+            print("Skipping item: $item as it doesn't contain a valid property reference");
+          }
+        } catch (e) {
+          print("Error processing item: $item. Error: $e");
+        }
+      }
+
+      return wishlist;
+    } else {
+      print("Unexpected data format: Expected a List");
+      throw Exception('Unexpected data format: Expected a List');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +98,30 @@ class _WishlistScreenState extends State<WishlistScreen> {
               itemCount: wishlist.length,
               itemBuilder: (context, index) {
                 final wish = wishlist[index];
+                final averageRating = calculateAverageRating(wish.rating);
                 return ListTile(
                   title: Text(wish.title),
                   subtitle: Text(wish.location),
-                  trailing: Text('\$${wish.price}/night'),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 16),
+                          const SizedBox(width: 4),
+                          Text(
+                            averageRating.toStringAsFixed(1), // Show average rating
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '\$${wish.price}/night',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
                   leading: wish.images.isNotEmpty
                       ? SizedBox(
                     width: 100, // Set the width for each image
@@ -93,6 +135,17 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     ),
                   )
                       : null,
+                  onTap: () {
+                    // Navigate to the PropertyDetailsScreen and pass the selected property
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/propertydetails',
+                      arguments: {
+                        'property': wish.toProperty(),
+                        'type': 'wishlist'
+                      },
+                    );
+                  },
                 );
               },
             );

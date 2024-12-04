@@ -16,6 +16,7 @@ class Trips {
   final String checkout;
   final String status;
   final List<int> rating;
+  final Map<String, dynamic>? tripInfo;
 
   Trips({
     required this.id,
@@ -35,6 +36,7 @@ class Trips {
     required this.checkout,
     required this.status,
     required this.rating,
+    this.tripInfo
   });
 
   factory Trips.fromJson(Map<String, dynamic> json) {
@@ -56,11 +58,12 @@ class Trips {
       checkout: json['checkout'],
       status: json['status'],
       rating: List<int>.from(json['rating']),
+      tripInfo: json.containsKey('tripInfo') ? Map<String, dynamic>.from(json['tripInfo']) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    final data = {
       'id': id,
       'title': title,
       'location': location,
@@ -79,5 +82,11 @@ class Trips {
       'status': status,
       'rating': rating,
     };
+
+    if (tripInfo != null) {
+      data['tripInfo'] = tripInfo as Object;
+    }
+
+    return data;
   }
 }

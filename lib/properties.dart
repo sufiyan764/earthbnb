@@ -41,6 +41,19 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
     properties = loadProperties();
   }
 
+  double calculateAverageRating(List<int> ratings) {
+    if (ratings.isEmpty) return 0.0;
+    int totalRatings = 0;
+    int totalUsers = 0;
+
+    for (int i = 0; i < ratings.length; i++) {
+      totalRatings += (i + 1) * ratings[i]; // Rating value (1-5) * count of users
+      totalUsers += ratings[i];
+    }
+
+    return totalUsers > 0 ? totalRatings / totalUsers : 0.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +74,30 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
                 itemCount: properties.length,
                 itemBuilder: (context, index) {
                   final property = properties[index];
+                  final averageRating = calculateAverageRating(property.rating);
                   return ListTile(
                     title: Text(property.title),
                     subtitle: Text(property.location),
-                    trailing: Text('\$${property.price}/night'),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.star, color: Colors.amber, size: 16),
+                            const SizedBox(width: 4),
+                            Text(
+                              averageRating.toStringAsFixed(1), // Show average rating
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '\$${property.price}/night',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                     leading: property.images.isNotEmpty
                         ? SizedBox(
                       width: 100, // Set the width for each image
@@ -82,7 +115,10 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
                       Navigator.pushReplacementNamed(
                         context,
                         '/propertydetails',
-                        arguments: property,
+                        arguments: {
+                          'property': property,
+                          'type': 'properties'
+                        },
                       );
                     },
                   );
