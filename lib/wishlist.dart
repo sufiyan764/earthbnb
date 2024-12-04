@@ -1,7 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart';
-import 'PropertiesClass.dart';
 import 'WishlistClass.dart';
 import 'navigation.dart';
 
@@ -11,6 +10,7 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
+  final _auth = FirebaseAuth.instance;
   late Future<List<Wishlist>> wishlistProperties;
 
   @override
@@ -20,12 +20,40 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Future<List<Wishlist>> loadWishlistProperties() async {
-    // Load the JSON file from assets
-    String jsonString = await rootBundle.loadString('assets/wishlist.json');
-    // Decode the JSON string to a List
-    List<dynamic> jsonList = json.decode(jsonString);
-    // Convert the List to a List of Wishlist objects
-    return jsonList.map((json) => Wishlist.fromJson(json)).toList();
+    final user = _auth.currentUser;
+    final DatabaseReference ref = FirebaseDatabase.instance.ref('wishlist/${user?.uid}');
+    DataSnapshot snapshot = await ref.get();
+    print("snapshot----------------_> " + snapshot.toString());
+    if (snapshot.exists) {
+      print("snapshot.value----------------_> " + snapshot.value.toString());
+      if (snapshot.value is Map) {
+        List<Wishlist> wishlist = [];
+        Map<Object?, Object?> wishlistMap = snapshot.value as Map<Object?, Object?>;
+        print("wishlistMap -----------------> ${wishlistMap}");
+
+        wishlistMap.forEach((key, value) {
+          try {
+            print("Processing item with key: $key and value: $value");
+            if (value is Map<Object?, Object?>) {
+              wishlist.add(Wishlist.fromJson(Map<String, dynamic>.from(value)));
+            } else {
+              print("Skipping item with key: $key because value is not a Map");
+            }
+          } catch (e) {
+            print("Error processing item with key: $key. Error: $e");
+          }
+        });
+
+        print("wishlist -----------------> $wishlist");
+        return wishlist;
+      } else {
+        print("not list");
+        throw Exception('Unexpected data format: Expected a List');
+      }
+    } else {
+      print("no data");
+      throw Exception('No data available');
+    }
   }
 
   @override
@@ -33,15 +61,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wishlist'),
+        leading: null,
       ),
       body: FutureBuilder<List<Wishlist>>(
         future: wishlistProperties,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading wishlist properties'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Your wishlist is empty'));
           } else {
             List<Wishlist> wishlist = snapshot.data!;
