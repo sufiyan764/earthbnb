@@ -187,7 +187,7 @@ class _TripsScreenState extends State<TripsScreen> {
                               ),
                               onPressed: userRating > 0
                                   ? null // Disable button if a rating already exists
-                                  : () => updateRating(trip.id, starIndex + 1, tripInfo?['key']),
+                                  : () => updateRating(trip.id, starIndex + 1, index.toString()),
                             );
                           }),
                         ),
