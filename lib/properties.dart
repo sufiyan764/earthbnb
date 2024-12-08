@@ -202,10 +202,10 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
                     children: [
                       const Icon(
                         Icons.star,
-                        color: Colors.amber,
-                        size: 16,
+                        color: AppColors.accentTeal,
+                        size: 18,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 3.5),
                       Text(
                         averageRating.toStringAsFixed(1),
                         style: const TextStyle(

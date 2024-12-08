@@ -1,3 +1,4 @@
+import 'package:earthbnb/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -122,6 +123,15 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     }
   }
 
+  String _formatDate(DateTime? date) {
+    if (date == null) return '';
+    final months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return "${months[date.month - 1]} ${date.day.toString().padLeft(2, '0')}, ${date.year}";
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,26 +145,42 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         title: Text(property.title),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Slider Section (moved outside padding)
+            if (property.images.isNotEmpty)
               Stack(
                 children: [
-                  if (property.images.isNotEmpty)
-                    SizedBox(
-                      height: 200,
-                      child: PageView.builder(
-                        itemCount: property.images.length,
-                        itemBuilder: (context, index) {
-                          return Image.asset(
-                            'assets/images/properties/${property.images[index]}',
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
+                  SizedBox(
+                    height: 230,
+                    child: PageView.builder(
+                      itemCount: property.images.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 8), // Shadow and spacing
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              'assets/images/properties/${property.images[index]}',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
                     ),
+                  ),
                   Positioned(
                     top: 16,
                     right: 16,
@@ -168,87 +194,168 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              Text(
-                property.title,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 8),
-              Text('Location: ${property.location}'),
-              const SizedBox(height: 8),
-              Text('Price: \$${property.price}/night'),
-              const SizedBox(height: 8),
-              // Ratings Section
-              const SizedBox(height: 16),
-              const Text(
-                "Ratings",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              ...List.generate(5, (index) {
-                final starCount = index + 1;
-                final userCount = property.rating.length > index ? property.rating[index] : 0;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Row(
+
+            const SizedBox(height: 16),
+
+            // Details Section
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Property Title Section
+                  Text(
+                    property.title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Location with Icon
+                  Row(
                     children: [
-                      Row(
-                        children: List.generate(
-                          starCount,
-                              (starIndex) => const Icon(Icons.star, color: Colors.amber, size: 16),
+                      const Icon(Icons.location_on, color: Colors.black87),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          property.location,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Text('$userCount Users'),
                     ],
                   ),
-                );
-              }),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _selectDateRange,
-                child: const Text("Select Check-In and Check-Out Dates"),
-              ),
-              const SizedBox(height: 8),
-              if (checkInDate != null && checkOutDate != null)
-                Text(
-                  "Selected dates: ${checkInDate!.toLocal()} to ${checkOutDate!.toLocal()}",
-                ),
-              if (numberOfNights > 0)
-                Text(
-                  "Number of nights: $numberOfNights",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  if(numberOfNights > 0) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CheckoutScreen(
-                            property: property,
-                            numberOfNights: numberOfNights,
-                            checkInDate: checkInDate,
-                            checkOutDate: checkOutDate
-                        ),
+                  const SizedBox(height: 8),
+
+                  // Dynamic Price
+                  Text(
+                    "\$${property.price}/night",
+                    style: const TextStyle(
+                      color: AppColors.accentTeal,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Check-in and Check-out Section
+                  ElevatedButton(
+                    onPressed: _selectDateRange,
+                    child: const Text("Select Check-In and Check-Out Dates"),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Display Selected Dates
+                  if (checkInDate != null)
+                    Text.rich(
+                      TextSpan(
+                        text: 'Check-in: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        children: [
+                          TextSpan(
+                            text: _formatDate(checkInDate),
+                            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (checkOutDate != null)
+                    Text.rich(
+                      TextSpan(
+                        text: 'Check-out: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        children: [
+                          TextSpan(
+                            text: _formatDate(checkOutDate),
+                            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  // Number of Nights
+                  if (numberOfNights > 0)
+                    Text(
+                      "Number of nights: $numberOfNights",
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+
+                  const SizedBox(height: 16),
+
+                  // Book Now Button
+                  ElevatedButton(
+                    onPressed: () {
+                      if (numberOfNights > 0) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckoutScreen(
+                              property: property,
+                              numberOfNights: numberOfNights,
+                              checkInDate: checkInDate,
+                              checkOutDate: checkOutDate,
+                            ),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please select check-in and check-out dates."),
+                          ),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accentTeal,
+                      foregroundColor: AppColors.backgroundWhite,
+                    ),
+                    child: const Text('Book Now'),
+                  ),
+
+
+                  // Rating Section (Moved to the bottom and listed from 5 to 1)
+                  const SizedBox(height:20),
+                  const Divider(
+                    thickness: 1, // Thickness of the line
+                    color: AppColors.cardShadow, // Color of the line
+                    height: 10, // Space between content and the line
+                  ),
+                  const SizedBox(height:20),
+                  const Text(
+                    "Ratings",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  ...List.generate(5, (index) {
+                    final starCount = 5 - index; // Reverse the rating stars (5 to 1)
+                    final userCount = property.rating.length > index ? property.rating[index] : 0;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Row(
+                            children: List.generate(
+                              starCount,
+                                  (starIndex) => const Icon(Icons.star, color: AppColors.accentTeal, size: 16),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text('$userCount Users'),
+                        ],
                       ),
                     );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please select checkin and checkout dates."),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Book Now'),
+                  }),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: AppNavigation(selectedIndex: navigationIndex),
     );
   }
+
+
 }
+
+

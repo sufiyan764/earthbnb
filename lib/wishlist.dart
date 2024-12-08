@@ -119,7 +119,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.star, color: Colors.amber, size: 16),
+                          const Icon(Icons.star, color: AppColors.accentTeal, size: 16),
                           const SizedBox(width: 4),
                           Text(
                             averageRating.toStringAsFixed(1), // Show average rating
