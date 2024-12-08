@@ -53,7 +53,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       for (var item in wishlistData) {
         try {
           if (item is Map && item.containsKey('property')) {
-            final propertyId = item['property'];
+            final propertyId = item['property'] - 1;
             final propertyRef = FirebaseDatabase.instance.ref('properties/$propertyId');
             DataSnapshot propertySnapshot = await propertyRef.get();
 
