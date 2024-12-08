@@ -53,11 +53,11 @@ class AppNavigation extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: (index) => _onItemTapped(context, index),
-      selectedItemColor: AppColors.accentTeal, // Set your selected color here
+      selectedItemColor: AppColors.backgroundWhite, // Set your selected color here
       unselectedItemColor: AppColors.unselectedNavIcon,
       showSelectedLabels: true, // Make sure the label for the selected item is always visible
       showUnselectedLabels: true,
-      backgroundColor: AppColors.lighterAccentTeal,
+      backgroundColor: AppColors.accentTeal,
       iconSize: 30.0, // Set a fixed icon size for consistency
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[

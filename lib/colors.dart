@@ -9,9 +9,6 @@ class AppColors {
   static const Color accentTeal = Color(0xFF00A699);
   static const Color lighterAccentTeal = Color(0x80A6E4E0); // 50% opacity
 
-
-
-
   static const Color accentOrange = Color(0xFFFC642D);
 
   // Background Colors
@@ -24,7 +21,7 @@ class AppColors {
 
   // Unselected Navigation Icon Color
   // static const Color unselectedNavIcon = Color(0xFFB0B0B0);
-  static const Color unselectedNavIcon = Color(0xFFFFFFFF);
+  static const Color unselectedNavIcon = Color(0xFFA2DFDA);
 
   // Card Backgrounds
   static const Color cardBackground = Color(0xFFFFFFFF); // White for individual property cards

@@ -1,3 +1,4 @@
+import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/thankyou.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class CheckoutScreen extends StatefulWidget {
     required this.checkInDate,
     required this.checkOutDate,
   }) : super(key: key);
+
 
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
@@ -292,7 +294,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _confirmPayment,
-                child: const Text('Confirm Payment'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accentTeal,
+                  foregroundColor: AppColors.backgroundWhite,
+                ),
+                child: const Text('Confirm Payment',),
               ),
             ],
           ),
