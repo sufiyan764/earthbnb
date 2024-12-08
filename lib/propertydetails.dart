@@ -17,6 +17,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
   bool isInWishlist = false;
   late Property property;
   late String type;
+  late int navigationIndex;
 
   DateTime? checkInDate;
   DateTime? checkOutDate;
@@ -29,6 +30,9 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
 
     property = args['property'] as Property;
     type = args['type'];
+    setState(() {
+      navigationIndex = type == 'properties' ? 0 : 1;
+    });
 
     _checkWishlistStatus();
   }
@@ -244,7 +248,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: AppNavigation(selectedIndex: 0),
+      bottomNavigationBar: AppNavigation(selectedIndex: navigationIndex),
     );
   }
 }
