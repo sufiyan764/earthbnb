@@ -1,3 +1,4 @@
+import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/profile.dart';
 import 'package:earthbnb/properties.dart';
 import 'package:earthbnb/propertydetails.dart';
@@ -38,12 +39,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.accentTeal),
         useMaterial3: true,
       ),
       initialRoute: initialRoute,
       onGenerateInitialRoutes: (String initialRoute) {
-        // Generate the initial route with no history
+
         return [
           MaterialPageRoute(
             builder: (context) {

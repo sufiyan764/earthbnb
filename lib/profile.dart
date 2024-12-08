@@ -1,3 +1,4 @@
+import 'package:earthbnb/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -91,8 +92,19 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundWhite,
       appBar: AppBar(
-          title: Text('Profile'),
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            color: AppColors.textDarkGray,
+            fontSize:  20,
+            fontWeight: FontWeight.w500,
+
+          ),
+
+        ),
+        backgroundColor: AppColors.backgroundWhite,
           leading: null,
       ),
       body: Padding(
@@ -132,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ElevatedButton(
                   onPressed: _saveUserData,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: AppColors.accentTeal,
                       foregroundColor: Colors.white
                   ),
                   child: Text('Save'),
@@ -141,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ElevatedButton(
                   onPressed: _logoutUser,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.black,
                     foregroundColor: Colors.white
                   ),
                   child: Text('Logout'),

@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:earthbnb/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 import 'TripsClass.dart';
 import 'navigation.dart';
 
@@ -78,7 +79,6 @@ class _TripsScreenState extends State<TripsScreen> {
 
   Future<void> updateRating(int propertyId, int rating, String tripKey) async {
     propertyId = propertyId - 1;
-    print("tripKey------------------__> $tripKey");
     final DatabaseReference propertyRef = FirebaseDatabase.instance.ref('properties/$propertyId');
     final DatabaseReference tripRef = FirebaseDatabase.instance.ref('trips/${_auth.currentUser!.uid}/$tripKey');
 
@@ -104,20 +104,41 @@ class _TripsScreenState extends State<TripsScreen> {
     });
   }
 
+  String _formatDate(String? dateStr) {
+    if (dateStr == null) return '';
+    final date = DateTime.tryParse(dateStr);
+    if (date == null) return '';
+
+    // Format date manually
+    final months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return "${months[date.month - 1]} ${date.day}, ${date.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundWhite,
       appBar: AppBar(
-        title: Text('Trips'),
+        title: const Text(
+          'Trips',
+          style: TextStyle(
+            color: AppColors.textDarkGray,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        backgroundColor: AppColors.backgroundWhite,
         leading: null,
       ),
       body: FutureBuilder<List<Trips>>(
         future: tripsProperties,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('You do not have any trips yet'));
+            return const Center(child: Text('You do not have any trips yet'));
           } else {
             List<Trips> trips = snapshot.data!;
             return ListView.builder(
@@ -131,7 +152,8 @@ class _TripsScreenState extends State<TripsScreen> {
                 final totalAmount = (amount * numberOfNights * 1.13).toStringAsFixed(2);
 
                 return Card(
-                  margin: EdgeInsets.all(8.0),
+                  color: AppColors.backgroundWhite,
+                  margin: const EdgeInsets.only(left: 16, top:8, bottom:8, right:16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -142,49 +164,94 @@ class _TripsScreenState extends State<TripsScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: trip.images.length,
                           itemBuilder: (context, imgIndex) {
-                            return Image.asset(
-                              'assets/images/properties/${trip.images[imgIndex]}',
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
+                            return ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              child: Image.asset(
+                                'assets/images/properties/${trip.images[imgIndex]}',
+                                fit: BoxFit.cover,
+
+                                width: MediaQuery.of(context).size.width,
+                              ),
                             );
                           },
                         ),
                       ),
+
                       // Property Details
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(trip.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.star, color: Colors.amber, size: 16),
-                                const SizedBox(width: 4),
-                                Text(
-                                  averageRating.toStringAsFixed(1), // Show average rating
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ],
+                            Text(
+                              trip.title,
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            Text(trip.location),
-                            Text('Check-in: ${tripInfo?['checkInDate']} - Check-out: ${tripInfo?['checkOutDate']}'),
-                            Text('Total Amount: \$${totalAmount}'),
+                            const SizedBox(height: 4),
+                            Text(
+                              trip.location,
+                              style: const TextStyle(
+                                color: AppColors.textDarkGray,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            // Highlight Check-in and Check-out
+                            Text.rich(
+                              TextSpan(
+                                text: 'Check-in: ',
+                                style: const TextStyle(fontWeight: FontWeight.bold), // Bold Check-in label
+                                children: [
+                                  TextSpan(
+                                    text: _formatDate(tripInfo?['checkInDate']),
+                                    style: const TextStyle(fontWeight: FontWeight.normal), // Normal for the date
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text.rich(
+                              TextSpan(
+                                text: 'Check-out: ',
+                                style: const TextStyle(fontWeight: FontWeight.bold), // Bold Check-out label
+                                children: [
+                                  TextSpan(
+                                    text: _formatDate(tripInfo?['checkOutDate']),
+                                    style: const TextStyle(fontWeight: FontWeight.normal), // Normal for the date
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Text.rich(
+                              TextSpan(
+                                text: 'Total Ammount: ',
+                                style: const TextStyle(fontWeight: FontWeight.bold), // Bold Check-out label
+                                children: [
+                                  TextSpan(
+                                    text: totalAmount,
+                                    style: const TextStyle(fontWeight: FontWeight.normal), // Normal for the date
+                                  ),
+                                ],
+                              ),
+                            ),
+
                           ],
                         ),
                       ),
                       // Rating Section
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0), // Reduce vertical padding
                         child: Row(
                           children: List.generate(5, (starIndex) {
                             final userRating = tripInfo?['rating'] ?? 0; // Default to 0 if no rating exists
                             return IconButton(
                               icon: Icon(
                                 Icons.star,
-                                color: userRating > starIndex ? Colors.amber : Colors.grey,
+                                size: 30, // Adjust the size of the star if needed
+                                color: userRating > starIndex ? AppColors.accentTeal : Colors.grey,
                               ),
+                              padding: const EdgeInsets.all(0.0), // Reduce padding around each star
                               onPressed: userRating > 0
                                   ? null // Disable button if a rating already exists
                                   : () => updateRating(trip.id, starIndex + 1, index.toString()),

@@ -1,4 +1,7 @@
+import 'package:earthbnb/colors.dart';
+import 'package:earthbnb/profile.dart';
 import 'package:earthbnb/properties.dart';
+import 'package:earthbnb/trips.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'wishlist.dart';
@@ -10,31 +13,51 @@ class AppNavigation extends StatelessWidget {
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == selectedIndex) return; // Prevent reload of the same page
+
+    Widget targetPage;
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/properties');
+        targetPage = PropertyListScreen(); // Replace with your actual widget
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/wishlist');
+        targetPage = WishlistScreen(); // Replace with your actual widget
         break;
-        case 2:
-      Navigator.pushReplacementNamed(context, '/trips');
-      break;
+      case 2:
+        targetPage = TripsScreen(); // Replace with your actual widget
+        break;
       case 3:
-        Navigator.pushReplacementNamed(context, '/profile');
+        targetPage = ProfilePage(); // Replace with your actual widget
         break;
+      default:
+        return;
     }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => targetPage,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 300),
+      ),
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: (index) => _onItemTapped(context, index),
-      selectedItemColor: Colors.blue, // Set your selected color here
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: AppColors.accentTeal, // Set your selected color here
+      unselectedItemColor: AppColors.unselectedNavIcon,
       showSelectedLabels: true, // Make sure the label for the selected item is always visible
       showUnselectedLabels: true,
+      backgroundColor: AppColors.lighterAccentTeal,
       iconSize: 30.0, // Set a fixed icon size for consistency
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
@@ -57,4 +80,5 @@ class AppNavigation extends StatelessWidget {
       ],
     );
   }
+
 }
