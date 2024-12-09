@@ -173,6 +173,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             if (property.images.isNotEmpty)
               Stack(
                 children: [
@@ -212,6 +213,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                       icon: Icon(
                         isInWishlist ? Icons.favorite : Icons.favorite_border,
                         color: isInWishlist ? Colors.red : Colors.white,
+                        size: 35,
                       ),
                       onPressed: _toggleWishlist,
                     ),

@@ -6,7 +6,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appBarText;
   final IconButton? appBarLeading;
 
-  // Constructor to receive the key and value as parameters
   const CustomAppBar({
     super.key,
     required this.appBarText,
@@ -15,29 +14,50 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      leading: appBarLeading ?? Container(),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
+    return Container(
+      height: 120.0,
+      color: AppColors.accentTeal,
+      child: Stack(
         children: [
-          ClipOval(
-            child: Image.asset(
-              'assets/earthbnb.png', // Path to your app icon
-              height: 40.0, // Adjust the size
-              width: 40.0,
-              fit: BoxFit.cover, // Ensures the image fits properly in the circle
+          // Leading IconButton
+          if (appBarLeading != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: appBarLeading,
+              ),
+            ),
+          // Centered Title and Logo
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    'assets/earthbnb.png',
+                    height: 50.0,
+                    width: 50.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  appBarText,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: AppColors.backgroundWhite,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 8), // Spacing between icon and text
-          Text(appBarText),
         ],
       ),
-      centerTitle: true,
-      backgroundColor: AppColors.accentTeal,
-      foregroundColor: AppColors.backgroundWhite,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(120.0);
 }
