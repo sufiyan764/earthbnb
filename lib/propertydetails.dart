@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:earthbnb/PropertiesClass.dart';
 import 'checkout.dart'; // Import your CheckoutScreen
+import 'widgets/receipt_row.dart';
+import 'widgets/custom_button.dart';
 
 import 'navigation.dart';
 
@@ -123,6 +125,28 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     }
   }
 
+  void bookNow() {
+    if (numberOfNights > 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CheckoutScreen(
+            property: property,
+            numberOfNights: numberOfNights,
+            checkInDate: checkInDate,
+            checkOutDate: checkOutDate,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select check-in and check-out dates."),
+        ),
+      );
+    }
+  }
+
   String _formatDate(DateTime? date) {
     if (date == null) return '';
     final months = [
@@ -134,6 +158,9 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int amount = property.price * numberOfNights;
+    double gst = amount * 0.13;
+    double totalAmount = amount + gst;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -148,7 +175,6 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image Slider Section (moved outside padding)
             if (property.images.isNotEmpty)
               Stack(
                 children: [
@@ -223,128 +249,240 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
+                      Text(
+                        "\$${property.price}/night",
+                        style: const TextStyle(
+                          color: AppColors.accentTeal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-
-                  // Dynamic Price
-                  Text(
-                    "\$${property.price}/night",
-                    style: const TextStyle(
-                      color: AppColors.accentTeal,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   const SizedBox(height: 16),
 
-                  // Check-in and Check-out Section
-                  ElevatedButton(
-                    onPressed: _selectDateRange,
-                    child: const Text("Select Check-In and Check-Out Dates"),
-                  ),
-                  const SizedBox(height: 8),
-
-                  // Display Selected Dates
-                  if (checkInDate != null)
-                    Text.rich(
-                      TextSpan(
-                        text: 'Check-in: ',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        children: [
-                          TextSpan(
-                            text: _formatDate(checkInDate),
-                            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  if (checkOutDate != null)
-                    Text.rich(
-                      TextSpan(
-                        text: 'Check-out: ',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        children: [
-                          TextSpan(
-                            text: _formatDate(checkOutDate),
-                            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  // Number of Nights
-                  if (numberOfNights > 0)
-                    Text(
-                      "Number of nights: $numberOfNights",
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-
-                  const SizedBox(height: 16),
-
-                  // Book Now Button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (numberOfNights > 0) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(
-                              property: property,
-                              numberOfNights: numberOfNights,
-                              checkInDate: checkInDate,
-                              checkOutDate: checkOutDate,
-                            ),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Please select check-in and check-out dates."),
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accentTeal,
-                      foregroundColor: AppColors.backgroundWhite,
-                    ),
-                    child: const Text('Book Now'),
-                  ),
-
-
-                  // Rating Section (Moved to the bottom and listed from 5 to 1)
-                  const SizedBox(height:20),
                   const Divider(
-                    thickness: 1, // Thickness of the line
-                    color: AppColors.cardShadow, // Color of the line
-                    height: 10, // Space between content and the line
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
                   ),
-                  const SizedBox(height:20),
-                  const Text(
-                    "Ratings",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+
+                  const SizedBox(height: 16),
+                  Text(
+                    property.description,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: 'Rooms: ',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          children: [
+                            TextSpan(
+                              text: property.rooms.toString(),
+                              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Accommodation: ',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          children: [
+                            TextSpan(
+                              text: property.guests.toString(),
+                              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Bathrooms: ',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          children: [
+                            TextSpan(
+                              text: property.bathrooms.toString(),
+                              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
+                  ),
+                  const SizedBox(height: 16),
+                  const Center(
+                    child: Text(
+                      "What we offer",
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ...List.generate((property.amenities.length / 2).ceil(), (index) {
+                    final start = index * 2;
+                    final end = (start + 2 <= property.amenities.length) ? start + 2 : property.amenities.length;
+                    final chunk = property.amenities.sublist(start, end);
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: chunk.map((amenity) {
+                        return Text(
+                          amenity,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      }).toList(),
+                    );
+                  }),
+                  const SizedBox(height: 16),
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.supervised_user_circle_sharp, color: Colors.teal, size: 90,),
+                        const SizedBox(width: 4),
+                        Column(
+                          children: [
+                            Text(
+                              "Hosted by ${property.hostName}",
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                            const Text(
+                              "Superhost",
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                              textAlign: TextAlign.start,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
+                  ),
+                  const SizedBox(height: 16),
+
+                  const Center(
+                    child: Text(
+                      "Ratings",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   ...List.generate(5, (index) {
-                    final starCount = 5 - index; // Reverse the rating stars (5 to 1)
+                    final starCount = 5 - index;
                     final userCount = property.rating.length > index ? property.rating[index] : 0;
+
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(vertical: 6.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Row(
-                            children: List.generate(
-                              starCount,
-                                  (starIndex) => const Icon(Icons.star, color: AppColors.accentTeal, size: 16),
+                            children: [
+                              ...List.generate(
+                                starCount,
+                                    (starIndex) => const Icon(Icons.star, color: AppColors.accentTeal, size: 25),
+                              ),
+                              if (starCount < 5)
+                                ...List.generate(
+                                  5 - starCount,
+                                      (starIndex) => const Icon(Icons.star_border, color: AppColors.accentTeal, size: 25),
+                                ),
+                            ],
+                          ),
+                          const Text(
+                            '-',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Text('$userCount Users'),
+                          Text(
+                            '$userCount Users',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
                         ],
                       ),
                     );
                   }),
+                  const SizedBox(height: 16),
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cardShadow,
+                    height: 10,
+                  ),
+                  const SizedBox(height:20),
+
+                  Center(
+                    child: CustomButton(buttonText: numberOfNights > 0 ? "Edit Dates" : "Reserve Dates", isColored: numberOfNights > 0 ? "false" : "true", onPressed: _selectDateRange, buttonColor: AppColors.accentTeal)
+                  ),
+                  const SizedBox(height: 16),
+                  if(checkInDate != null && checkOutDate != null && numberOfNights > 0)
+                    Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ReceiptRow(keyText: 'Check-in:', valueText: _formatDate(checkInDate)),
+                            const SizedBox(height: 8),
+                            ReceiptRow(keyText: 'Check-out:', valueText: _formatDate(checkOutDate)),
+                            const SizedBox(height: 8),
+                            ReceiptRow(keyText: 'Price for $numberOfNights nights:', valueText: '\$${amount.toStringAsFixed(2)}'),
+                            const SizedBox(height: 8),
+                            ReceiptRow(keyText: 'GST (13%):', valueText: '\$${gst.toStringAsFixed(2)}'),
+                            const SizedBox(height: 8),
+                            ReceiptRow(keyText: 'Total Amount:', valueText: '\$${totalAmount.toStringAsFixed(2)}'),
+                            const SizedBox(height: 16),
+                            CustomButton(buttonText: 'Book Now', isColored: "true", onPressed: bookNow, buttonColor: AppColors.accentTeal)
+                          ],
+                        )
+                    ),
+                  const SizedBox(height: 25),
                 ],
               ),
             ),
@@ -355,7 +493,32 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     );
   }
 
-
+  Widget _buildReceiptRow(String key, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30), // Adjust horizontal padding to control row width
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between key and value
+        children: [
+          Expanded(
+            child: Text(
+              key,
+              style: TextStyle(
+                fontWeight: key == "Total Amount:" ? FontWeight.bold : FontWeight.normal,
+                fontSize: key == "Total Amount:" ? 22 : 18,
+              ),
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: key == "Total Amount:" ? FontWeight.bold : FontWeight.normal,
+              fontSize: key == "Total Amount:" ? 22 : 18,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 

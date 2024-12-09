@@ -1,5 +1,8 @@
+import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/properties.dart';
 import 'package:earthbnb/register.dart';
+import 'package:earthbnb/widgets/custom_button.dart';
+import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,6 +15,22 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
 
   String email = '', password = '';
 
@@ -19,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       try {
         await _auth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
+          email: _emailController.text,
+          password: _passwordController.text,
         );
         Navigator.pushReplacementNamed(context, '/properties');
       } catch (e) {
@@ -41,23 +60,11 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) => value!.isEmpty || !value.contains('@') ? 'Enter a valid email' : null,
-                onChanged: (value) => email = value,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) => value!.isEmpty ? 'Enter your password' : null,
-                onChanged: (value) => password = value,
-              ),
+              CustomInput(inputText: 'Email', inputController: _emailController, inputValidator: (value) => value!.isEmpty || !value.contains('@') ? 'Enter a valid email' : null, textInputType: TextInputType.emailAddress, inputMaxLength: 200),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _loginUser,
-                child: Text('Login'),
-              ),
+              CustomInput(inputText: 'Password', inputController: _passwordController, inputValidator: (value) => value!.isEmpty ? 'Enter your password' : null, textInputType: TextInputType.name, inputMaxLength: 200),
+              SizedBox(height: 20),
+              CustomButton(buttonText: 'Login', isColored: 'true', onPressed: _loginUser, buttonColor: AppColors.accentTeal),
               SizedBox(height: 20),
               TextButton(
                 onPressed: () {

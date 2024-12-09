@@ -1,9 +1,12 @@
 import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/thankyou.dart';
+import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:earthbnb/PropertiesClass.dart';
+import 'widgets/receipt_row.dart';
+import 'widgets/custom_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final Property property;
@@ -117,6 +120,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
+  String _formatDate(DateTime? date) {
+    if (date == null) return '';
+    final months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return "${months[date.month - 1]} ${date.day.toString().padLeft(2, '0')}, ${date.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     int amount = widget.property.price * widget.numberOfNights;
@@ -138,171 +149,121 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 'Personal Details',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(labelText: 'First Name'),
-                validator: (value) =>
-                value!.isEmpty ? 'First Name is required' : null,
-              ),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: const InputDecoration(labelText: 'Last Name'),
-                validator: (value) =>
-                value!.isEmpty ? 'Last Name is required' : null,
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                    labelText: 'Phone Number',
-                  counterText: '',
-                ),
-                keyboardType: TextInputType.phone,
-                maxLength: 10,
-                validator: (value) {
-                  if (value == null || value.length != 10) {
-                    return 'Phone Number must be 10 digits';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email Address'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  final emailRegex =
-                  RegExp(r'^[^@]+@[^@]+\.[^@]+$'); // Simple email validation
-                  if (value == null || !emailRegex.hasMatch(value)) {
-                    return 'Enter a valid email address';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'First Name', inputController: _firstNameController, inputValidator: (value) => value!.isEmpty ? 'First Name is required' : null, textInputType: TextInputType.name, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Last Name', inputController: _lastNameController, inputValidator: (value) => value!.isEmpty ? 'Last Name is required' : null, textInputType: TextInputType.name, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Phone Number', inputController: _phoneController, inputValidator: (value) {
+                if (value == null || value.length != 10) {
+                  return 'Phone Number must be 10 digits';
+                }
+                return null;
+              },
+              textInputType: TextInputType.phone, inputMaxLength: 10),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Email Address', inputController: _emailController, inputValidator: (value) {
+                final emailRegex =
+                RegExp(r'^[^@]+@[^@]+\.[^@]+$'); // Simple email validation
+                if (value == null || !emailRegex.hasMatch(value)) {
+                  return 'Enter a valid email address';
+                }
+                return null;
+              }, textInputType: TextInputType.emailAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
               const Text(
                 'Address',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Street'),
-                validator: (value) =>
-                value!.isEmpty ? 'Street is required' : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Unit'),
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'City'),
-                validator: (value) =>
-                value!.isEmpty ? 'City is required' : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Province'),
-                validator: (value) =>
-                value!.isEmpty ? 'Province is required' : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Country'),
-                validator: (value) =>
-                value!.isEmpty ? 'Country is required' : null,
-              ),
-              TextFormField(
-                controller: _postalController,
-                decoration: const InputDecoration(
-                    labelText: 'Postal Code',
-                  counterText: '',
-                ),
-                maxLength: 7,
-                validator: (value) {
-                  final postalRegex = RegExp(r'^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$');
-                  if (value == null || !postalRegex.hasMatch(value)) {
-                    return 'Enter a valid Canadian postal code (e.g., N2J 3Y5)';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
+              CustomInput(inputText: 'Street', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Street is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Unit', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Unit is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'City', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'City is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Province', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Province is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Country', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Country is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Postal Code', inputController: _postalController, inputValidator: (value) {
+                final postalRegex = RegExp(r'^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$');
+                if (value == null || !postalRegex.hasMatch(value)) {
+                  return 'Enter a valid Canadian postal code (e.g., N2J 3Y5)';
+                }
+                return null;
+              }, textInputType: TextInputType.streetAddress, inputMaxLength: 7),
+              const SizedBox(height: 20),
+
               const Text(
                 'Card Details',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Name on Card'),
-                validator: (value) =>
-                value!.isEmpty ? 'Name on card is required' : null,
-              ),
-              TextFormField(
-                controller: _cardController,
-                decoration: const InputDecoration(
-                    labelText: 'Card Number',
-                  counterText: '',
-                ),
-                keyboardType: TextInputType.number,
-                maxLength: 16,
-                validator: (value) {
-                  if (value == null || value.length != 16) {
-                    return 'Card Number must be 16 digits';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _cvvController,
-                decoration: const InputDecoration(
-                    labelText: 'CVV',
-                  counterText: '',
-                ),
-                keyboardType: TextInputType.number,
-                maxLength: 3,
-                validator: (value) {
-                  if (value == null || value.length != 3) {
-                    return 'CVV must be 3 digits';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _expiryController,
-                decoration: const InputDecoration(
-                    labelText: 'Expiry MMYY',
-                  counterText: '',
-                ),
-                keyboardType: TextInputType.number,
-                maxLength: 4,
-                validator: (value) {
-                  final expiryRegex = RegExp(r'^(0[1-9]|1[0-2])\d{2}$');
-                  if (value == null || !expiryRegex.hasMatch(value)) {
-                    return 'Enter a valid expiry date (MMYY)';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Amount: \$${amount.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 16),
-              ),
-              Text(
-                'GST (13%): \$${gst.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 16),
-              ),
-              Text(
-                'Total Amount: \$${totalAmount.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _confirmPayment,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accentTeal,
-                  foregroundColor: AppColors.backgroundWhite,
-                ),
-                child: const Text('Confirm Payment',),
-              ),
+              CustomInput(inputText: 'Name on Card', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Name on card is required' : null, textInputType: TextInputType.name, inputMaxLength: 200),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Card Number', inputController: _cardController, inputValidator: (value) {
+                if (value == null || value.length != 16) {
+                  return 'Card Number must be 16 digits';
+                }
+                return null;
+              }, textInputType: TextInputType.number, inputMaxLength: 16),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'CVV', inputController: _cvvController, inputValidator: (value) {
+                if (value == null || value.length != 3) {
+                  return 'CVV must be 3 digits';
+                }
+                return null;
+              }, textInputType: TextInputType.number, inputMaxLength: 3),
+              const SizedBox(height: 20),
+              CustomInput(inputText: 'Expiry MMYY', inputController: _expiryController, inputValidator: (value) {
+                final expiryRegex = RegExp(r'^(0[1-9]|1[0-2])\d{2}$');
+                if (value == null || !expiryRegex.hasMatch(value)) {
+                  return 'Enter a valid expiry date (MMYY)';
+                }
+                return null;
+              }, textInputType: TextInputType.number, inputMaxLength: 4),
+              const SizedBox(height: 30),
+              ReceiptRow(keyText: 'Check-in:', valueText: _formatDate(widget.checkInDate)),
+              const SizedBox(height: 8),
+              ReceiptRow(keyText: 'Check-out:', valueText: _formatDate(widget.checkOutDate)),
+              const SizedBox(height: 8),
+              ReceiptRow(keyText: 'Price for ${widget.numberOfNights} nights:', valueText: '\$${amount.toStringAsFixed(2)}'),
+              const SizedBox(height: 8),
+              ReceiptRow(keyText: 'GST (13%):', valueText: '\$${gst.toStringAsFixed(2)}'),
+              const SizedBox(height: 8),
+              ReceiptRow(keyText: 'Total Amount:', valueText: '\$${totalAmount.toStringAsFixed(2)}'),
+              const SizedBox(height: 30),
+              Center(child: CustomButton(buttonText: 'Confirm Payment', isColored: "true", onPressed: _confirmPayment, buttonColor: AppColors.accentTeal)),
+              const SizedBox(height: 30),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildReceiptRow(String key, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30), // Adjust horizontal padding to control row width
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between key and value
+        children: [
+          Expanded(
+            child: Text(
+              key,
+              style: TextStyle(
+                fontWeight: key == "Total Amount:" ? FontWeight.bold : FontWeight.normal,
+                fontSize: key == "Total Amount:" ? 22 : 18,
+              ),
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: key == "Total Amount:" ? FontWeight.bold : FontWeight.normal,
+              fontSize: key == "Total Amount:" ? 22 : 18,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:earthbnb/colors.dart';
+import 'package:earthbnb/widgets/custom_button.dart';
+import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -42,13 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _loadUserData() async {
     final user = _auth.currentUser;
-    print("user " + user.toString());
     if (user != null) {
       final snapshot = await _database.child('users/${user.uid}').get();
 
       if (snapshot.exists) {
         final data = Map<String, dynamic>.from(snapshot.value as Map);
-        print("data ---------------> " + data.toString());
         setState(() {
           _firstNameController.text = data['firstName'] ?? '';
           _lastNameController.text = data['lastName'] ?? '';
@@ -114,50 +114,17 @@ class _ProfilePageState extends State<ProfilePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextFormField(
-                  controller: _firstNameController,
-                  decoration: InputDecoration(labelText: 'First Name'),
-                  validator: (value) =>
-                  value!.isEmpty ? 'Enter your first name' : null,
-                ),
-                TextFormField(
-                  controller: _lastNameController,
-                  decoration: InputDecoration(labelText: 'Last Name'),
-                  validator: (value) =>
-                  value!.isEmpty ? 'Enter your last name' : null,
-                ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: InputDecoration(labelText: 'Phone Number (Canadian)'),
-                  keyboardType: TextInputType.phone,
-                  validator: (value) =>
-                  value!.isEmpty || value.length != 10 ? 'Enter a valid phone number' : null,
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) =>
-                  value!.isEmpty || !value.contains('@') ? 'Enter a valid email' : null,
-                ),
+                CustomInput(inputText: 'First Name', inputController: _firstNameController, inputValidator: (value) => value!.isEmpty ? 'Enter your first name' : null, textInputType: TextInputType.name, inputMaxLength: 200),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _saveUserData,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accentTeal,
-                      foregroundColor: Colors.white
-                  ),
-                  child: Text('Save'),
-                ),
+                CustomInput(inputText: 'Last Name', inputController: _lastNameController, inputValidator: (value) => value!.isEmpty ? 'Enter your last name' : null, textInputType: TextInputType.name, inputMaxLength: 200),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _logoutUser,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white
-                  ),
-                  child: Text('Logout'),
-                ),
+                CustomInput(inputText: 'Phone Number', inputController: _phoneController, inputValidator: (value) => value!.isEmpty || value.length != 10 ? 'Enter a valid phone number' : null, textInputType: TextInputType.phone, inputMaxLength: 10),
+                SizedBox(height: 20),
+                CustomInput(inputText: 'Email', inputController: _emailController, inputValidator: (value) => value!.isEmpty || !value.contains('@') ? 'Enter a valid email' : null, textInputType: TextInputType.emailAddress, inputMaxLength: 100),
+                SizedBox(height: 20),
+                CustomButton(buttonText: 'Save', isColored: 'true', onPressed: _saveUserData, buttonColor: AppColors.accentTeal),
+                SizedBox(height: 20),
+                CustomButton(buttonText: 'Logout', isColored: 'true', onPressed: _logoutUser, buttonColor: Colors.black)
               ],
             ),
           ),
