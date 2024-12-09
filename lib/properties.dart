@@ -1,6 +1,7 @@
 import 'package:earthbnb/PropertiesClass.dart';
 import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/propertydetails.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'navigation.dart';
@@ -60,18 +61,7 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      appBar: AppBar(
-        title: const Text(
-          'Explore Properties',
-          style: TextStyle(
-            color: AppColors.textDarkGray,
-            fontSize:  20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: AppColors.backgroundWhite,
-        elevation: 1,
-      ),
+      appBar: const CustomAppBar(appBarText: 'Explore Properties'),
       body: FutureBuilder<List<Property>>(
         future: properties,
         builder: (context, snapshot) {

@@ -20,12 +20,11 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200, // Set the width you want for the button
+      width: 200,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          side: const BorderSide(color: Colors.black87, width: 1),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           backgroundColor: isColored == "true" ? buttonColor : null,
           foregroundColor: isColored == "true" ? AppColors.backgroundWhite : null,

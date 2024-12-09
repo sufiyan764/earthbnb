@@ -1,4 +1,5 @@
 import 'package:earthbnb/colors.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -162,15 +163,12 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     double gst = amount * 0.13;
     double totalAmount = amount + gst;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
+        appBar: CustomAppBar(appBarText: property.title, appBarLeading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/$type');
           },
-        ),
-        title: Text(property.title),
-      ),
+        )) ,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -411,7 +409,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                   const SizedBox(height: 8),
                   ...List.generate(5, (index) {
                     final starCount = 5 - index;
-                    final userCount = property.rating.length > index ? property.rating[index] : 0;
+                    final userCount = property.rating[starCount - 1];
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),

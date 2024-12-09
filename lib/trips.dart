@@ -1,3 +1,4 @@
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:earthbnb/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,7 +53,7 @@ class _TripsScreenState extends State<TripsScreen> {
       for (var item in tripsData) {
         try {
           if (item is Map && item.containsKey('property')) {
-            final propertyId = item['property'];
+            final propertyId = item['property'] - 1;
             final propertyRef = FirebaseDatabase.instance.ref('properties/$propertyId');
             DataSnapshot propertySnapshot = await propertyRef.get();
 
@@ -120,18 +121,7 @@ class _TripsScreenState extends State<TripsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      appBar: AppBar(
-        title: const Text(
-          'Trips',
-          style: TextStyle(
-            color: AppColors.textDarkGray,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: AppColors.backgroundWhite,
-        leading: null,
-      ),
+      appBar: const CustomAppBar(appBarText: 'Trips'),
       body: FutureBuilder<List<Trips>>(
         future: tripsProperties,
         builder: (context, snapshot) {

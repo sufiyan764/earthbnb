@@ -1,5 +1,6 @@
 import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/thankyou.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,9 +136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     double totalAmount = amount + gst;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Checkout'),
-      ),
+      appBar: const CustomAppBar(appBarText: 'Checkout'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -145,9 +144,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Personal Details',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const Center(
+                child: Text(
+                  'Personal Details',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                )
               ),
               const SizedBox(height: 20),
               CustomInput(inputText: 'First Name', inputController: _firstNameController, inputValidator: (value) => value!.isEmpty ? 'First Name is required' : null, textInputType: TextInputType.name, inputMaxLength: 200),
@@ -171,10 +172,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 return null;
               }, textInputType: TextInputType.emailAddress, inputMaxLength: 200),
               const SizedBox(height: 20),
-              const Text(
-                'Address',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const Center(
+                child: Text(
+                  'Address',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                )
               ),
+              const SizedBox(height: 20),
               CustomInput(inputText: 'Street', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Street is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
               const SizedBox(height: 20),
               CustomInput(inputText: 'Unit', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Unit is required' : null, textInputType: TextInputType.streetAddress, inputMaxLength: 200),
@@ -194,10 +198,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               }, textInputType: TextInputType.streetAddress, inputMaxLength: 7),
               const SizedBox(height: 20),
 
-              const Text(
-                'Card Details',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const Center(
+                child: Text(
+                  'Card Details',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
               ),
+              const SizedBox(height: 20),
               CustomInput(inputText: 'Name on Card', inputController: TextEditingController(), inputValidator: (value) => value!.isEmpty ? 'Name on card is required' : null, textInputType: TextInputType.name, inputMaxLength: 200),
               const SizedBox(height: 20),
               CustomInput(inputText: 'Card Number', inputController: _cardController, inputValidator: (value) {

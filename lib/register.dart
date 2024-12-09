@@ -1,6 +1,7 @@
 import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/login.dart';
 import 'package:earthbnb/properties.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:earthbnb/widgets/custom_button.dart';
 import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      appBar: const CustomAppBar(appBarText: 'Register'),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -93,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 20),
                 CustomInput(inputText: 'Password', inputController: _passwordController, inputValidator: (value) => value!.length < 6 ? 'Password must be at least 6 characters' : null, textInputType: TextInputType.text, inputMaxLength: 100),
                 SizedBox(height: 20),
-                CustomInput(inputText: 'Confirm Password', inputController: _confirmPasswordController, inputValidator: (value) => value != password ? 'Passwords do not match' : null, textInputType: TextInputType.text, inputMaxLength: 100),
+                CustomInput(inputText: 'Confirm Password', inputController: _confirmPasswordController, inputValidator: (value) => value != _passwordController.text ? 'Passwords do not match' : null, textInputType: TextInputType.text, inputMaxLength: 100),
                 SizedBox(height: 20),
                 CustomButton(buttonText: 'Register', isColored: 'true', onPressed: _registerUser, buttonColor: AppColors.accentTeal),
                 SizedBox(height: 20),

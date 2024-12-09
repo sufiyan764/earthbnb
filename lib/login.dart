@@ -1,6 +1,7 @@
 import 'package:earthbnb/colors.dart';
 import 'package:earthbnb/properties.dart';
 import 'package:earthbnb/register.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:earthbnb/widgets/custom_button.dart';
 import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: const CustomAppBar(appBarText: 'Login'),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(

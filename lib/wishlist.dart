@@ -1,5 +1,6 @@
 import 'package:earthbnb/PropertiesClass.dart';
 import 'package:earthbnb/colors.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -83,18 +84,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      appBar: AppBar(
-        title: const Text(
-          'Wishlist',
-          style: TextStyle(
-            color: AppColors.textDarkGray,
-            fontSize:  20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        leading: null,
-        backgroundColor: AppColors.backgroundWhite,
-      ),
+      appBar: const CustomAppBar(appBarText: 'Wishlist'),
       body: FutureBuilder<List<Wishlist>>(
         future: wishlistProperties,
 

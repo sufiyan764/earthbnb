@@ -1,4 +1,5 @@
 import 'package:earthbnb/colors.dart';
+import 'package:earthbnb/widgets/custom_appbar.dart';
 import 'package:earthbnb/widgets/custom_button.dart';
 import 'package:earthbnb/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
@@ -93,20 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      appBar: AppBar(
-        title: const Text(
-          'Profile',
-          style: TextStyle(
-            color: AppColors.textDarkGray,
-            fontSize:  20,
-            fontWeight: FontWeight.w500,
-
-          ),
-
-        ),
-        backgroundColor: AppColors.backgroundWhite,
-          leading: null,
-      ),
+      appBar: const CustomAppBar(appBarText: 'Profile'),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
